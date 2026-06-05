@@ -1,0 +1,795 @@
+<style>
+  .dashboard-shell {
+    padding: 7rem clamp(1rem, 5vw, 3rem) 4rem;
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+
+  .dashboard-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top right, rgba(240, 193, 75, 0.16), transparent 34%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: clamp(1.5rem, 4vw, 2.4rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.8rem;
+  }
+
+  .dashboard-hero p {
+    color: var(--muted);
+    max-width: 720px;
+  }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.4rem;
+  }
+
+  .metric-card,
+  .dashboard-panel,
+  .order-card-compact {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .metric-card {
+    padding: 1rem 1.1rem;
+  }
+
+  .metric-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .metric-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .dashboard-panel {
+    padding: 1.35rem;
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .panel-head h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  .muted-copy {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  .profile-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(240, 193, 75, 0.08), rgba(240, 193, 75, 0.02));
+    border: 1px solid rgba(240, 193, 75, 0.16);
+    margin-bottom: 1rem;
+  }
+
+  .avatar-shell {
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: rgba(240, 193, 75, 0.12);
+    border: 1px solid rgba(240, 193, 75, 0.22);
+    display: grid;
+    place-items: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .avatar-shell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-meta h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.55rem;
+  }
+
+  .profile-form,
+  .composer-grid {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .dashboard-panel label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .dashboard-panel input,
+  .dashboard-panel textarea,
+  .dashboard-panel select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.72rem 0.82rem;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .dashboard-panel input:focus,
+  .dashboard-panel textarea:focus,
+  .dashboard-panel select:focus {
+    border-color: var(--accent);
+  }
+
+  .dashboard-panel textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 0.4rem;
+  }
+
+  .stack-list {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .order-card-compact {
+    padding: 1rem 1.05rem;
+  }
+
+  .order-topline {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .order-route-strong {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .order-meta-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.55rem 0 0.75rem;
+  }
+
+  .order-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.7rem;
+    margin-top: 0.65rem;
+  }
+
+  .order-detail {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    padding: 0.72rem 0.8rem;
+  }
+
+  .detail-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .detail-value {
+    font-size: 0.92rem;
+  }
+
+  .empty-state {
+    padding: 1.4rem;
+    text-align: center;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+  }
+
+  @media (max-width: 1080px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .form-row-2 {
+      grid-template-columns: 1fr;
+    }
+
+    .order-topline {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<main class="dashboard-shell">
+  <section class="dashboard-hero reveal">
+    <span class="section-label">Личный кабинет</span>
+    <h1>Профиль, заявки и публикация заказов в одном месте.</h1>
+    <p>
+      Здесь можно обновить контактные данные, загрузить аватар, сформировать новую заявку,
+      оплатить черновик и отслеживать статус своих перевозок.
+    </p>
+    <div class="metric-grid" id="profileMetricGrid"></div>
+  </section>
+
+  <section class="dashboard-grid">
+    <div class="dashboard-panel reveal">
+      <div class="panel-head">
+        <h2>Аккаунт</h2>
+        <span class="muted-copy" id="profileCreatedAt">Загрузка...</span>
+      </div>
+
+      <div id="profileIdentity"></div>
+
+      <div class="profile-form">
+        <div>
+          <label for="profileFullName">Полное имя</label>
+          <input type="text" id="profileFullName" placeholder="Иван Иванов" />
+        </div>
+        <div class="form-row-2">
+          <div>
+            <label for="profileEmail">Email</label>
+            <input type="email" id="profileEmail" placeholder="user@example.com" />
+          </div>
+          <div>
+            <label for="profilePhone">Телефон</label>
+            <input type="text" id="profilePhone" placeholder="+7 999 123-45-67" />
+          </div>
+        </div>
+        <div>
+          <label for="profileCompany">Компания</label>
+          <input type="text" id="profileCompany" placeholder="ООО ГрузТранс" />
+        </div>
+        <div class="action-row">
+          <button class="btn btn-primary" type="button" onclick="saveProfileSettings()">Сохранить профиль</button>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:1.1rem 0"></div>
+
+      <div class="panel-head" style="margin-bottom:0.7rem">
+        <h2>Аватар</h2>
+        <span class="muted-copy">jpg, png, webp</span>
+      </div>
+      <input type="file" id="profileAvatarInput" accept=".jpg,.jpeg,.png,.webp" />
+      <div class="action-row">
+        <button class="btn btn-outline" type="button" onclick="uploadProfileAvatar()">Загрузить аватар</button>
+      </div>
+    </div>
+
+    <div class="dashboard-panel reveal">
+      <div class="panel-head">
+        <h2 id="composerTitle">Новая заявка</h2>
+        <span class="muted-copy" id="composerHint">Доступно после загрузки профиля</span>
+      </div>
+
+      <div id="orderComposerContent">
+        <div class="empty-state">Загружаю форму создания заявки...</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-panel reveal" style="margin-top:1.5rem">
+    <div class="panel-head">
+      <h2>Мои заявки</h2>
+      <span class="muted-copy" id="ordersCounter">Загрузка списка...</span>
+    </div>
+    <div class="stack-list" id="profileOrdersList"></div>
+  </section>
+
+  <datalist id="profileCityList"></datalist>
+</main>
+
+<script>
+'use strict';
+
+const PROFILE_CARGO_LABELS = {
+  general: 'Обычный груз',
+  fragile: 'Хрупкий',
+  perishable: 'Скоропортящийся',
+  oversized: 'Негабарит',
+  hazardous: 'Опасный',
+  liquid: 'Жидкость',
+};
+
+const PROFILE_ROLE_LABELS = {
+  client: 'Заказчик',
+  carrier: 'Перевозчик',
+  admin: 'Администратор',
+};
+
+const PROFILE_STATUS_LABELS = {
+  draft: 'Черновик',
+  published: 'Опубликована',
+  in_progress: 'В работе',
+  completed: 'Завершена',
+  cancelled: 'Отменена',
+  disputed: 'Спор',
+};
+
+const PROFILE_PAYMENT_LABELS = {
+  pending: 'Ожидает оплаты',
+  paid: 'Оплачено',
+  failed: 'Ошибка оплаты',
+  cancelled: 'Отменено',
+};
+
+const profileState = {
+  me: null,
+  orders: [],
+  cities: [],
+};
+
+function profileFormatMoney(value) {
+  if (value === null || value === undefined || value === '') return 'Не рассчитано';
+  return `${Number(value).toLocaleString('ru-RU')} ₽`;
+}
+
+function profileFormatDate(value) {
+  if (!value) return 'Не указано';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString('ru-RU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function profileInitial(name) {
+  return (name || '?').trim().charAt(0).toUpperCase();
+}
+
+function profileStatusTag(status) {
+  const colorMap = {
+    draft: 'rgba(255,255,255,0.06)',
+    published: 'rgba(82,192,154,0.12)',
+    in_progress: 'rgba(110,168,254,0.12)',
+    completed: 'rgba(240,193,75,0.12)',
+    cancelled: 'rgba(224,82,82,0.12)',
+    disputed: 'rgba(224,131,58,0.12)',
+  };
+  const textMap = {
+    draft: '#d8d6e1',
+    published: '#52c09a',
+    in_progress: '#6ea8fe',
+    completed: '#f0c14b',
+    cancelled: '#e05252',
+    disputed: '#e8833a',
+  };
+  return `background:${colorMap[status] || 'rgba(255,255,255,0.06)'};color:${textMap[status] || '#f0ede8'}`;
+}
+
+function renderProfileIdentity() {
+  const me = profileState.me;
+  const avatarMarkup = me.avatar_url
+    ? `<img src="${me.avatar_url}" alt="${escHtml(me.full_name)}" />`
+    : profileInitial(me.full_name);
+
+  document.getElementById('profileIdentity').innerHTML = `
+    <div class="profile-card">
+      <div class="avatar-shell">${avatarMarkup}</div>
+      <div class="profile-meta">
+        <h3>${escHtml(me.full_name)}</h3>
+        <div class="muted-copy">@${escHtml(me.username)} · ${PROFILE_ROLE_LABELS[me.role] || me.role}</div>
+        <div class="profile-tags">
+          <span class="tag">${me.is_verified ? 'Профиль подтвержден' : 'Профиль без верификации'}</span>
+          <span class="tag">Email: ${escHtml(me.email)}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderProfileMetrics() {
+  const me = profileState.me;
+  const cards = [
+    ['Роль', PROFILE_ROLE_LABELS[me.role] || me.role],
+    ['Рейтинг', Number(me.rating || 0).toFixed(1)],
+    ['Заказов', String(me.total_orders || 0)],
+    ['Статус', me.is_verified ? 'Подтвержден' : 'Обычный'],
+  ];
+
+  document.getElementById('profileMetricGrid').innerHTML = cards.map(([label, value]) => `
+    <div class="metric-card">
+      <span class="metric-label">${label}</span>
+      <span class="metric-value">${escHtml(value)}</span>
+    </div>
+  `).join('');
+}
+
+function fillProfileForm() {
+  const me = profileState.me;
+  document.getElementById('profileFullName').value = me.full_name || '';
+  document.getElementById('profileEmail').value = me.email || '';
+  document.getElementById('profilePhone').value = me.phone || '';
+  document.getElementById('profileCompany').value = me.company_name || '';
+  document.getElementById('profileCreatedAt').textContent = `Создан: ${profileFormatDate(me.created_at)}`;
+}
+
+function renderCityDatalist() {
+  document.getElementById('profileCityList').innerHTML = profileState.cities
+    .map(city => `<option value="${escHtml(city.name)}"></option>`)
+    .join('');
+}
+
+function renderComposer() {
+  const me = profileState.me;
+  const title = document.getElementById('composerTitle');
+  const hint = document.getElementById('composerHint');
+  const target = document.getElementById('orderComposerContent');
+
+  if (me.role === 'carrier') {
+    title.textContent = 'Рабочая зона перевозчика';
+    hint.textContent = 'Для перевозчика доступен список взятых заказов';
+    target.innerHTML = `
+      <div class="empty-state">
+        Создание заявки скрыто для роли перевозчика. Берите опубликованные заказы из каталога и отслеживайте свои рейсы ниже.
+        <div class="action-row" style="justify-content:center;margin-top:0.9rem">
+          <button class="btn btn-primary" type="button" onclick="navigateTo('/catalog')">Открыть каталог</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  title.textContent = me.role === 'admin' ? 'Новая заявка от администратора' : 'Создать заявку';
+  hint.textContent = profileState.cities.length
+    ? `Доступно городов в справочнике: ${profileState.cities.length}`
+    : 'Если города нет в списке, его можно добавить из админки';
+
+  target.innerHTML = `
+    <div class="composer-grid">
+      <div class="form-row-2">
+        <div>
+          <label for="orderOriginCity">Город отправления</label>
+          <input type="text" id="orderOriginCity" list="profileCityList" placeholder="Самара" />
+        </div>
+        <div>
+          <label for="orderDestinationCity">Город назначения</label>
+          <input type="text" id="orderDestinationCity" list="profileCityList" placeholder="Казань" />
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label for="orderOriginAddress">Адрес отправления</label>
+          <input type="text" id="orderOriginAddress" placeholder="ул. Заводская, 8" />
+        </div>
+        <div>
+          <label for="orderDestinationAddress">Адрес назначения</label>
+          <input type="text" id="orderDestinationAddress" placeholder="Склад №4" />
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label for="orderCargoName">Название груза</label>
+          <input type="text" id="orderCargoName" placeholder="Паллета с товаром" />
+        </div>
+        <div>
+          <label for="orderCargoType">Тип груза</label>
+          <select id="orderCargoType">
+            <option value="general">Обычный груз</option>
+            <option value="fragile">Хрупкий</option>
+            <option value="perishable">Скоропортящийся</option>
+            <option value="oversized">Негабарит</option>
+            <option value="hazardous">Опасный</option>
+            <option value="liquid">Жидкость</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label for="orderWeight">Вес, кг</label>
+          <input type="number" id="orderWeight" min="1" step="0.1" placeholder="1200" />
+        </div>
+        <div>
+          <label for="orderVolume">Объем, м³</label>
+          <input type="number" id="orderVolume" min="0" step="0.1" placeholder="14" />
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label for="orderBudget">Бюджет, ₽</label>
+          <input type="number" id="orderBudget" min="0" step="100" placeholder="35000" />
+        </div>
+        <div>
+          <label for="orderPickupDate">Дата погрузки</label>
+          <input type="datetime-local" id="orderPickupDate" />
+        </div>
+      </div>
+      <div>
+        <label for="orderDescription">Описание</label>
+        <textarea id="orderDescription" placeholder="Упаковка, требования к кузову, особенности погрузки"></textarea>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-primary" type="button" onclick="createProfileOrder()">Создать черновик</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderOrders() {
+  const list = document.getElementById('profileOrdersList');
+  const me = profileState.me;
+  const orders = profileState.orders;
+
+  document.getElementById('ordersCounter').textContent = `Всего заявок: ${orders.length}`;
+
+  if (!orders.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+        У вас пока нет заявок. Создайте первую заявку справа или откройте каталог, если вы перевозчик.
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = orders.map(order => {
+    const actions = [];
+
+    if (me.role !== 'carrier' && order.status === 'draft' && order.payment_status !== 'paid') {
+      actions.push(`<button class="btn btn-primary" type="button" onclick="payProfileOrder(${order.id})">Оплатить и опубликовать</button>`);
+    }
+    if (order.status === 'in_progress') {
+      actions.push(`<button class="btn btn-outline" type="button" onclick="completeProfileOrder(${order.id})">Завершить заявку</button>`);
+    }
+
+    const paymentLabel = PROFILE_PAYMENT_LABELS[order.payment_status] || 'Нет платежа';
+
+    return `
+      <article class="order-card-compact">
+        <div class="order-topline">
+          <div>
+            <div class="order-route-strong">${escHtml(order.origin_city)} → ${escHtml(order.destination_city)}</div>
+            <div class="muted-copy">${escHtml(order.cargo_name)} · ${PROFILE_CARGO_LABELS[order.cargo_type] || order.cargo_type}</div>
+          </div>
+          <div class="order-meta-line">
+            <span class="tag" style="${profileStatusTag(order.status)}">${PROFILE_STATUS_LABELS[order.status] || order.status}</span>
+            <span class="tag">${paymentLabel}</span>
+          </div>
+        </div>
+
+        <div class="order-details-grid">
+          <div class="order-detail">
+            <span class="detail-label">Стоимость</span>
+            <span class="detail-value">${profileFormatMoney(order.final_price || order.budget)}</span>
+          </div>
+          <div class="order-detail">
+            <span class="detail-label">Вес</span>
+            <span class="detail-value">${Number(order.weight_kg).toLocaleString('ru-RU')} кг</span>
+          </div>
+          <div class="order-detail">
+            <span class="detail-label">Дистанция</span>
+            <span class="detail-value">${order.distance_km ? `${order.distance_km} км` : 'Не рассчитана'}</span>
+          </div>
+          <div class="order-detail">
+            <span class="detail-label">Погрузка</span>
+            <span class="detail-value">${profileFormatDate(order.pickup_date)}</span>
+          </div>
+        </div>
+
+        ${order.vehicle_label ? `<div class="muted-copy" style="margin-top:0.75rem">Назначенный транспорт: ${escHtml(order.vehicle_label)}</div>` : ''}
+        ${actions.length ? `<div class="action-row">${actions.join('')}</div>` : ''}
+      </article>
+    `;
+  }).join('');
+}
+
+async function loadProfilePage() {
+  if (!state.user) return;
+
+  try {
+    const [me, orders, cities] = await Promise.all([
+      apiFetch('/users/me'),
+      apiFetch('/users/me/orders'),
+      apiFetch('/logistics/cities').catch(() => []),
+    ]);
+
+    profileState.me = me;
+    profileState.orders = orders;
+    profileState.cities = cities;
+
+    renderProfileMetrics();
+    renderProfileIdentity();
+    fillProfileForm();
+    renderCityDatalist();
+    renderComposer();
+    renderOrders();
+    setTimeout(initReveal, 40);
+  } catch (error) {
+    showToast('error', 'Не удалось загрузить профиль', error.message);
+  }
+}
+
+async function saveProfileSettings() {
+  try {
+    const payload = {
+      full_name: document.getElementById('profileFullName').value.trim(),
+      email: document.getElementById('profileEmail').value.trim(),
+      phone: document.getElementById('profilePhone').value.trim() || null,
+      company_name: document.getElementById('profileCompany').value.trim() || null,
+    };
+
+    profileState.me = { ...profileState.me, ...(await apiFetch('/users/me', {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    })) };
+
+    renderProfileIdentity();
+    fillProfileForm();
+    showToast('success', 'Профиль обновлен');
+  } catch (error) {
+    showToast('error', 'Не удалось сохранить профиль', error.message);
+  }
+}
+window.saveProfileSettings = saveProfileSettings;
+
+async function uploadProfileAvatar() {
+  const input = document.getElementById('profileAvatarInput');
+  if (!input.files || !input.files[0]) {
+    showToast('error', 'Выберите файл');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', input.files[0]);
+
+  try {
+    const headers = {};
+    if (state.token) headers.Authorization = `Bearer ${state.token}`;
+
+    const response = await fetch('/api/users/me/avatar', {
+      method: 'POST',
+      headers,
+      body: formData,
+    });
+
+    const payload = await response.json().catch(() => null);
+    if (!response.ok) {
+      throw new Error(_formatApiError(payload, 'Ошибка загрузки файла'));
+    }
+
+    profileState.me.avatar_url = payload.avatar_url;
+    renderProfileIdentity();
+    showToast('success', 'Аватар обновлен');
+  } catch (error) {
+    showToast('error', 'Не удалось загрузить аватар', error.message);
+  }
+}
+window.uploadProfileAvatar = uploadProfileAvatar;
+
+async function createProfileOrder() {
+  try {
+    const payload = {
+      origin_city: document.getElementById('orderOriginCity').value.trim(),
+      origin_address: document.getElementById('orderOriginAddress').value.trim(),
+      destination_city: document.getElementById('orderDestinationCity').value.trim(),
+      destination_address: document.getElementById('orderDestinationAddress').value.trim(),
+      cargo_name: document.getElementById('orderCargoName').value.trim(),
+      cargo_type: document.getElementById('orderCargoType').value,
+      weight_kg: Number(document.getElementById('orderWeight').value),
+      volume_m3: document.getElementById('orderVolume').value ? Number(document.getElementById('orderVolume').value) : null,
+      description: document.getElementById('orderDescription').value.trim() || null,
+      budget: document.getElementById('orderBudget').value ? Number(document.getElementById('orderBudget').value) : null,
+      pickup_date: document.getElementById('orderPickupDate').value || null,
+    };
+
+    if (!payload.origin_city || !payload.destination_city || !payload.origin_address || !payload.destination_address || !payload.cargo_name || !payload.weight_kg) {
+      showToast('error', 'Заполните обязательные поля заявки');
+      return;
+    }
+
+    await apiFetch('/orders', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    showToast('success', 'Черновик заявки создан', 'Теперь его можно оплатить и опубликовать');
+    await loadProfilePage();
+  } catch (error) {
+    showToast('error', 'Не удалось создать заявку', error.message);
+  }
+}
+window.createProfileOrder = createProfileOrder;
+
+async function payProfileOrder(orderId) {
+  try {
+    await apiFetch(`/payments/orders/${orderId}/pay`, { method: 'POST' });
+    showToast('success', 'Заявка оплачена и опубликована');
+    await loadProfilePage();
+  } catch (error) {
+    showToast('error', 'Не удалось провести оплату', error.message);
+  }
+}
+window.payProfileOrder = payProfileOrder;
+
+async function completeProfileOrder(orderId) {
+  try {
+    await apiFetch(`/orders/${orderId}/complete`, { method: 'PATCH' });
+    showToast('success', 'Заявка завершена');
+    await loadProfilePage();
+  } catch (error) {
+    showToast('error', 'Не удалось завершить заявку', error.message);
+  }
+}
+window.completeProfileOrder = completeProfileOrder;
+
+loadProfilePage();
+</script>

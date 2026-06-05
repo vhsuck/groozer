@@ -1,0 +1,1062 @@
+<style>
+  .admin-shell {
+    padding: 7rem clamp(1rem, 5vw, 3rem) 4rem;
+    max-width: 1460px;
+    margin: 0 auto;
+  }
+
+  .admin-hero,
+  .admin-panel,
+  .admin-stat,
+  .admin-table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .admin-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.5rem, 4vw, 2.4rem);
+    margin-bottom: 1.5rem;
+    background:
+      radial-gradient(circle at right top, rgba(232, 131, 58, 0.18), transparent 34%),
+      radial-gradient(circle at left bottom, rgba(240, 193, 75, 0.12), transparent 28%),
+      var(--surface);
+  }
+
+  .admin-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4.4vw, 3.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.7rem;
+  }
+
+  .admin-hero p {
+    color: var(--muted);
+    max-width: 760px;
+  }
+
+  .admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.35rem;
+  }
+
+  .admin-stat {
+    padding: 1rem 1.05rem;
+  }
+
+  .admin-stat label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+
+  .admin-stat strong {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .admin-layout {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .admin-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .admin-panel,
+  .admin-table-card {
+    padding: 1.2rem;
+  }
+
+  .admin-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .admin-head h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.12rem;
+    margin: 0;
+  }
+
+  .admin-note {
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+
+  .admin-form-grid {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .admin-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .admin-panel label,
+  .admin-table-card label {
+    display: block;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .admin-panel input,
+  .admin-panel select,
+  .admin-panel textarea,
+  .admin-table-card select,
+  .admin-table-card input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.72rem 0.82rem;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .admin-panel textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .admin-panel input:focus,
+  .admin-panel select:focus,
+  .admin-panel textarea:focus,
+  .admin-table-card select:focus,
+  .admin-table-card input:focus {
+    border-color: var(--accent);
+  }
+
+  .admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 0.35rem;
+  }
+
+  .admin-table-wrap {
+    overflow-x: auto;
+  }
+
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 980px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.85rem 0.6rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  .admin-table th {
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .inline-checks {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .inline-checks label {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+
+  .inline-checks input[type="checkbox"] {
+    width: auto;
+  }
+
+  .admin-subtle {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .admin-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .admin-empty {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  @media (max-width: 1080px) {
+    .admin-grid-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .admin-shell {
+      padding: 6.2rem 0.9rem 3rem;
+    }
+
+    .admin-hero,
+    .admin-panel,
+    .admin-table-card {
+      padding: 1rem;
+    }
+
+    .admin-stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .admin-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .admin-table-wrap {
+      overflow: visible;
+    }
+
+    .admin-table {
+      min-width: 0;
+    }
+
+    .admin-table thead {
+      display: none;
+    }
+
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td {
+      display: block;
+      width: 100%;
+    }
+
+    .admin-table tr {
+      border-top: 1px solid var(--border);
+      padding: 0.85rem 0;
+    }
+
+    .admin-table td {
+      border-top: none;
+      padding: 0.45rem 0;
+      display: grid;
+      grid-template-columns: minmax(96px, 118px) minmax(0, 1fr);
+      gap: 0.7rem;
+      align-items: start;
+      overflow-wrap: anywhere;
+    }
+
+    .admin-table td::before {
+      content: attr(data-label);
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.35;
+    }
+
+    .inline-checks {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.55rem;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .admin-stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .admin-form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .admin-actions {
+      width: 100%;
+    }
+
+    .admin-actions .btn {
+      width: 100%;
+    }
+
+    .admin-table td {
+      grid-template-columns: 1fr;
+      gap: 0.28rem;
+    }
+  }
+</style>
+
+<main class="admin-shell">
+  <section class="admin-hero reveal">
+    <span class="section-label">Администрирование</span>
+    <h1>Управление пользователями, логистикой, оплатами и публикацией заявок.</h1>
+    <p>
+      Эта панель закрывает сценарии из диаграмм проекта: справочники городов, транспорт,
+      обработку заявок, назначение машины и контроль платежей.
+    </p>
+    <div class="admin-stats-grid" id="adminStatsGrid"></div>
+  </section>
+
+  <section class="admin-layout">
+    <div class="admin-grid-2">
+      <div class="admin-panel reveal">
+        <div class="admin-head">
+          <h2>Справочники</h2>
+          <span class="admin-note">Города и типы транспорта</span>
+        </div>
+        <div class="admin-form-grid">
+          <div>
+            <label for="adminCityName">Новый город</label>
+            <input type="text" id="adminCityName" placeholder="Самара" />
+          </div>
+          <div class="admin-form-row">
+            <div>
+              <label for="adminCityRegion">Регион</label>
+              <input type="text" id="adminCityRegion" placeholder="Самарская область" />
+            </div>
+            <div>
+              <label for="adminCityLat">Широта</label>
+              <input type="number" id="adminCityLat" step="0.0001" placeholder="53.1959" />
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div>
+              <label for="adminCityLon">Долгота</label>
+              <input type="number" id="adminCityLon" step="0.0001" placeholder="50.1008" />
+            </div>
+            <div class="admin-actions" style="align-items:flex-end">
+              <button class="btn btn-primary" type="button" onclick="createAdminCity()">Добавить город</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:1px;background:var(--border);margin:1.1rem 0"></div>
+
+        <div class="admin-form-grid">
+          <div>
+            <label for="adminTypeName">Тип транспорта</label>
+            <input type="text" id="adminTypeName" placeholder="Фургон 5т" />
+          </div>
+          <div class="admin-form-row">
+            <div>
+              <label for="adminTypePayload">Грузоподъемность, кг</label>
+              <input type="number" id="adminTypePayload" min="0" step="100" placeholder="5000" />
+            </div>
+            <div>
+              <label for="adminTypeVolume">Объем, м³</label>
+              <input type="number" id="adminTypeVolume" min="0" step="0.1" placeholder="35" />
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div>
+              <label for="adminTypeRate">Ставка за км</label>
+              <input type="number" id="adminTypeRate" min="0" step="0.1" placeholder="38" />
+            </div>
+            <div>
+              <label for="adminTypeMinPrice">Мин. цена</label>
+              <input type="number" id="adminTypeMinPrice" min="0" step="100" placeholder="7000" />
+            </div>
+          </div>
+          <div>
+            <label for="adminTypeDescription">Описание</label>
+            <textarea id="adminTypeDescription" placeholder="Для междугородних перевозок средней тоннажности"></textarea>
+          </div>
+          <div class="admin-actions">
+            <button class="btn btn-outline" type="button" onclick="createAdminVehicleType()">Добавить тип ТС</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-panel reveal">
+        <div class="admin-head">
+          <h2>Новый транспорт</h2>
+          <span class="admin-note" id="adminVehicleSummary">Загрузка справочников...</span>
+        </div>
+        <div class="admin-form-grid">
+          <div class="admin-form-row">
+            <div>
+              <label for="adminVehicleModel">Модель</label>
+              <input type="text" id="adminVehicleModel" placeholder="MAN TGS" />
+            </div>
+            <div>
+              <label for="adminVehiclePlate">Госномер</label>
+              <input type="text" id="adminVehiclePlate" placeholder="A123AA163" />
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div>
+              <label for="adminVehicleTypeId">Тип ТС</label>
+              <select id="adminVehicleTypeId"></select>
+            </div>
+            <div>
+              <label for="adminVehicleCityId">Базовый город</label>
+              <select id="adminVehicleCityId"></select>
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div>
+              <label for="adminVehiclePayload">Грузоподъемность, кг</label>
+              <input type="number" id="adminVehiclePayload" min="0" step="100" placeholder="5000" />
+            </div>
+            <div>
+              <label for="adminVehicleVolume">Объем, м³</label>
+              <input type="number" id="adminVehicleVolume" min="0" step="0.1" placeholder="35" />
+            </div>
+          </div>
+          <div>
+            <label for="adminVehicleNotes">Примечание</label>
+            <textarea id="adminVehicleNotes" placeholder="Свободен для междугородних рейсов"></textarea>
+          </div>
+          <div class="admin-actions">
+            <button class="btn btn-primary" type="button" onclick="createAdminVehicle()">Добавить транспорт</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="admin-table-card reveal">
+      <div class="admin-head">
+        <h2>Транспорт</h2>
+        <span class="admin-note" id="adminVehiclesCount">Загрузка транспорта...</span>
+      </div>
+      <div id="adminVehiclesTableWrap"></div>
+    </section>
+
+    <section class="admin-table-card reveal">
+      <div class="admin-head">
+        <h2>Пользователи</h2>
+        <span class="admin-note" id="adminUsersCount">Загрузка пользователей...</span>
+      </div>
+      <div id="adminUsersTableWrap"></div>
+    </section>
+
+    <section class="admin-table-card reveal">
+      <div class="admin-head">
+        <h2>Заявки</h2>
+        <span class="admin-note" id="adminOrdersCount">Загрузка заявок...</span>
+      </div>
+      <div id="adminOrdersTableWrap"></div>
+    </section>
+
+    <section class="admin-table-card reveal">
+      <div class="admin-head">
+        <h2>Платежи</h2>
+        <span class="admin-note" id="adminPaymentsCount">Загрузка платежей...</span>
+      </div>
+      <div id="adminPaymentsTableWrap"></div>
+    </section>
+  </section>
+</main>
+
+<script>
+'use strict';
+
+const ADMIN_ROLE_LABELS = {
+  client: 'Заказчик',
+  carrier: 'Перевозчик',
+  admin: 'Администратор',
+};
+
+const ADMIN_ORDER_STATUS_LABELS = {
+  draft: 'Черновик',
+  published: 'Опубликована',
+  in_progress: 'В работе',
+  completed: 'Завершена',
+  cancelled: 'Отменена',
+  disputed: 'Спор',
+};
+
+const ADMIN_PAYMENT_LABELS = {
+  pending: 'Ожидает оплаты',
+  paid: 'Оплачено',
+  failed: 'Ошибка',
+  cancelled: 'Отменено',
+};
+
+const adminState = {
+  dashboard: null,
+  users: [],
+  orders: [],
+  payments: [],
+  cities: [],
+  vehicleTypes: [],
+  vehicles: [],
+  matches: {},
+};
+
+function adminMoney(value) {
+  return `${Number(value || 0).toLocaleString('ru-RU')} ₽`;
+}
+
+function adminDate(value) {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString('ru-RU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function adminStatusStyle(status) {
+  const bg = {
+    pending: 'rgba(240,193,75,0.12)',
+    paid: 'rgba(82,192,154,0.12)',
+    failed: 'rgba(224,82,82,0.12)',
+    cancelled: 'rgba(255,255,255,0.06)',
+    draft: 'rgba(255,255,255,0.06)',
+    published: 'rgba(82,192,154,0.12)',
+    in_progress: 'rgba(110,168,254,0.12)',
+    completed: 'rgba(240,193,75,0.12)',
+    disputed: 'rgba(232,131,58,0.12)',
+  };
+  const color = {
+    pending: '#f0c14b',
+    paid: '#52c09a',
+    failed: '#e05252',
+    cancelled: '#d8d6e1',
+    draft: '#d8d6e1',
+    published: '#52c09a',
+    in_progress: '#6ea8fe',
+    completed: '#f0c14b',
+    disputed: '#e8833a',
+  };
+  return `background:${bg[status] || 'rgba(255,255,255,0.06)'};color:${color[status] || '#f0ede8'}`;
+}
+
+function renderAdminStats() {
+  const stats = adminState.dashboard;
+  const cards = [
+    ['Пользователей', stats.users_total],
+    ['Перевозчиков', stats.carriers_total],
+    ['Заявок', stats.orders_total],
+    ['Опубликовано', stats.orders_published],
+    ['В работе', stats.orders_in_progress],
+    ['Оплат pending', stats.payments_pending],
+    ['Оплат paid', stats.payments_paid],
+    ['Выручка', adminMoney(stats.revenue_paid)],
+    ['Транспорт', stats.vehicles_total],
+    ['Свободно', stats.vehicles_available],
+  ];
+
+  document.getElementById('adminStatsGrid').innerHTML = cards.map(([label, value]) => `
+    <div class="admin-stat">
+      <label>${label}</label>
+      <strong>${escHtml(String(value))}</strong>
+    </div>
+  `).join('');
+}
+
+function renderAdminFormOptions() {
+  const citySelect = document.getElementById('adminVehicleCityId');
+  const typeSelect = document.getElementById('adminVehicleTypeId');
+
+  citySelect.innerHTML = adminState.cities.map(city => `
+    <option value="${city.id}">${escHtml(city.name)}</option>
+  `).join('');
+
+  typeSelect.innerHTML = adminState.vehicleTypes.map(type => `
+    <option value="${type.id}" data-payload="${type.payload_kg}" data-volume="${type.volume_m3 || ''}">
+      ${escHtml(type.name)} · ${Number(type.payload_kg).toLocaleString('ru-RU')} кг
+    </option>
+  `).join('');
+
+  document.getElementById('adminVehicleSummary').textContent =
+    `Городов: ${adminState.cities.length} · типов ТС: ${adminState.vehicleTypes.length}`;
+
+  syncVehicleTypeDefaults();
+}
+
+function syncVehicleTypeDefaults() {
+  const selected = adminState.vehicleTypes.find(item => String(item.id) === document.getElementById('adminVehicleTypeId').value);
+  if (!selected) return;
+  document.getElementById('adminVehiclePayload').value = selected.payload_kg || '';
+  document.getElementById('adminVehicleVolume').value = selected.volume_m3 || '';
+}
+
+function renderVehicles() {
+  const wrap = document.getElementById('adminVehiclesTableWrap');
+  document.getElementById('adminVehiclesCount').textContent = `Всего транспорта: ${adminState.vehicles.length}`;
+
+  if (!adminState.vehicles.length) {
+    wrap.innerHTML = '<div class="admin-empty">В базе пока нет транспорта.</div>';
+    return;
+  }
+
+  wrap.innerHTML = `
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Транспорт</th>
+            <th>Тип / город</th>
+            <th>Грузоподъемность</th>
+            <th>Статус</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${adminState.vehicles.map(vehicle => `
+            <tr>
+              <td data-label="Транспорт">
+                <strong>${escHtml(vehicle.model)}</strong><br />
+                <span class="admin-subtle">${escHtml(vehicle.plate_number)}</span>
+              </td>
+              <td data-label="Тип и город">
+                ${escHtml(vehicle.vehicle_type_name)}<br />
+                <span class="admin-subtle">${escHtml(vehicle.city_name || 'Город не задан')}</span>
+              </td>
+              <td data-label="Грузоподъемность">
+                ${Number(vehicle.payload_kg).toLocaleString('ru-RU')} кг<br />
+                <span class="admin-subtle">${vehicle.volume_m3 ? `${vehicle.volume_m3} м³` : 'Объем не указан'}</span>
+              </td>
+              <td data-label="Статус">
+                <div class="inline-checks">
+                  <label><input type="checkbox" id="vehicleActive-${vehicle.id}" ${vehicle.is_active ? 'checked' : ''} /> активен</label>
+                  <label><input type="checkbox" id="vehicleAvailable-${vehicle.id}" ${vehicle.is_available ? 'checked' : ''} /> свободен</label>
+                </div>
+              </td>
+              <td data-label="Действие">
+                <button class="btn btn-outline" type="button" onclick="saveAdminVehicle(${vehicle.id})">Сохранить</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderUsers() {
+  const wrap = document.getElementById('adminUsersTableWrap');
+  document.getElementById('adminUsersCount').textContent = `Всего пользователей: ${adminState.users.length}`;
+
+  if (!adminState.users.length) {
+    wrap.innerHTML = '<div class="admin-empty">Пользователи не найдены.</div>';
+    return;
+  }
+
+  wrap.innerHTML = `
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Пользователь</th>
+            <th>Роль</th>
+            <th>Статусы</th>
+            <th>Рейтинг</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${adminState.users.map(user => `
+            <tr>
+              <td data-label="Пользователь">
+                <strong>${escHtml(user.full_name)}</strong><br />
+                <span class="admin-subtle">@${escHtml(user.username)} · ${escHtml(user.email)}</span>
+              </td>
+              <td data-label="Роль">
+                <select id="adminUserRole-${user.id}">
+                  ${Object.entries(ADMIN_ROLE_LABELS).map(([value, label]) => `
+                    <option value="${value}" ${user.role === value ? 'selected' : ''}>${label}</option>
+                  `).join('')}
+                </select>
+              </td>
+              <td data-label="Статусы">
+                <div class="inline-checks">
+                  <label><input type="checkbox" id="adminUserActive-${user.id}" ${user.is_active ? 'checked' : ''} /> активен</label>
+                  <label><input type="checkbox" id="adminUserVerified-${user.id}" ${user.is_verified ? 'checked' : ''} /> подтвержден</label>
+                </div>
+              </td>
+              <td data-label="Рейтинг">
+                ${Number(user.rating || 0).toFixed(1)}<br />
+                <span class="admin-subtle">Заказов: ${user.total_orders || 0}</span>
+              </td>
+              <td data-label="Действие">
+                <button class="btn btn-outline" type="button" onclick="saveAdminUser(${user.id})">Сохранить</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderOrders() {
+  const wrap = document.getElementById('adminOrdersTableWrap');
+  document.getElementById('adminOrdersCount').textContent = `Всего заявок: ${adminState.orders.length}`;
+
+  if (!adminState.orders.length) {
+    wrap.innerHTML = '<div class="admin-empty">Заявки пока отсутствуют.</div>';
+    return;
+  }
+
+  wrap.innerHTML = `
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Маршрут</th>
+            <th>Груз</th>
+            <th>Статус</th>
+            <th>Транспорт</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${adminState.orders.map(order => {
+            const matches = adminState.matches[order.id] || [];
+            return `
+              <tr>
+                <td data-label="Маршрут">
+                  <strong>${escHtml(order.route)}</strong><br />
+                  <span class="admin-subtle">Создано: ${adminDate(order.created_at)}</span>
+                </td>
+                <td data-label="Груз">
+                  ${escHtml(order.cargo_name)}<br />
+                  <span class="admin-subtle">${Number(order.weight_kg).toLocaleString('ru-RU')} кг · ${adminMoney(order.final_price)}</span>
+                </td>
+                <td data-label="Статус">
+                  <span class="admin-chip" style="${adminStatusStyle(order.status)}">${ADMIN_ORDER_STATUS_LABELS[order.status] || order.status}</span>
+                  <div style="margin-top:0.6rem">
+                    <select id="adminOrderStatus-${order.id}">
+                      ${Object.entries(ADMIN_ORDER_STATUS_LABELS).map(([value, label]) => `
+                        <option value="${value}" ${order.status === value ? 'selected' : ''}>${label}</option>
+                      `).join('')}
+                    </select>
+                  </div>
+                </td>
+                <td data-label="Транспорт">
+                  ${order.vehicle_label ? `<div>${escHtml(order.vehicle_label)}</div>` : '<span class="admin-subtle">Не назначен</span>'}
+                  <div style="margin-top:0.6rem">
+                    <select id="adminOrderVehicle-${order.id}">
+                      <option value="">${matches.length ? 'Выберите транспорт' : 'Нет доступных ТС'}</option>
+                      ${matches.map(vehicle => `
+                        <option value="${vehicle.id}">${escHtml(vehicle.label)}</option>
+                      `).join('')}
+                    </select>
+                  </div>
+                </td>
+                <td data-label="Действия">
+                  <div class="admin-actions">
+                    <button class="btn btn-outline" type="button" onclick="saveAdminOrderStatus(${order.id})">Статус</button>
+                    <button class="btn btn-primary" type="button" onclick="assignAdminVehicle(${order.id})">Назначить ТС</button>
+                    <button class="btn btn-ghost" type="button" onclick="reloadAdminMatches(${order.id})">Обновить подбор</button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderPayments() {
+  const wrap = document.getElementById('adminPaymentsTableWrap');
+  document.getElementById('adminPaymentsCount').textContent = `Всего платежей: ${adminState.payments.length}`;
+
+  if (!adminState.payments.length) {
+    wrap.innerHTML = '<div class="admin-empty">Платежи пока не созданы.</div>';
+    return;
+  }
+
+  wrap.innerHTML = `
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Платеж</th>
+            <th>Сумма</th>
+            <th>Статус</th>
+            <th>Время</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${adminState.payments.map(payment => `
+            <tr>
+              <td data-label="Платеж">
+                <strong>Order #${payment.order_id}</strong><br />
+                <span class="admin-subtle">${escHtml(payment.provider)} · ${escHtml(payment.reference)}</span>
+              </td>
+              <td data-label="Сумма">${adminMoney(payment.amount)}</td>
+              <td data-label="Статус"><span class="admin-chip" style="${adminStatusStyle(payment.status)}">${ADMIN_PAYMENT_LABELS[payment.status] || payment.status}</span></td>
+              <td data-label="Время">
+                <span class="admin-subtle">Запрошен: ${adminDate(payment.requested_at)}</span><br />
+                <span class="admin-subtle">Оплачен: ${adminDate(payment.paid_at)}</span>
+              </td>
+              <td data-label="Действие">
+                ${payment.status === 'pending'
+                  ? `<button class="btn btn-outline" type="button" onclick="cancelAdminPayment(${payment.order_id})">Отменить</button>`
+                  : '<span class="admin-subtle">—</span>'}
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderAdminPage() {
+  renderAdminStats();
+  renderAdminFormOptions();
+  renderVehicles();
+  renderUsers();
+  renderOrders();
+  renderPayments();
+  setTimeout(initReveal, 40);
+}
+
+async function loadAllOrderMatches() {
+  const pairs = await Promise.all(
+    adminState.orders.map(async order => {
+      const matches = await apiFetch(`/logistics/orders/${order.id}/matches`).catch(() => []);
+      return [order.id, matches];
+    })
+  );
+  adminState.matches = Object.fromEntries(pairs);
+}
+
+async function loadAdminPage() {
+  try {
+    const [dashboard, users, orders, payments, cities, vehicleTypes, vehicles] = await Promise.all([
+      apiFetch('/admin/dashboard'),
+      apiFetch('/admin/users'),
+      apiFetch('/admin/orders'),
+      apiFetch('/admin/payments'),
+      apiFetch('/logistics/cities?include_inactive=true'),
+      apiFetch('/logistics/vehicle-types?include_inactive=true'),
+      apiFetch('/logistics/vehicles'),
+    ]);
+
+    adminState.dashboard = dashboard;
+    adminState.users = users;
+    adminState.orders = orders;
+    adminState.payments = payments;
+    adminState.cities = cities;
+    adminState.vehicleTypes = vehicleTypes;
+    adminState.vehicles = vehicles;
+
+    await loadAllOrderMatches();
+    renderAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось загрузить админку', error.message);
+  }
+}
+
+async function createAdminCity() {
+  try {
+    await apiFetch('/logistics/cities', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: document.getElementById('adminCityName').value.trim(),
+        region: document.getElementById('adminCityRegion').value.trim() || null,
+        latitude: Number(document.getElementById('adminCityLat').value),
+        longitude: Number(document.getElementById('adminCityLon').value),
+        is_active: true,
+      }),
+    });
+    showToast('success', 'Город добавлен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось добавить город', error.message);
+  }
+}
+window.createAdminCity = createAdminCity;
+
+async function createAdminVehicleType() {
+  try {
+    await apiFetch('/logistics/vehicle-types', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: document.getElementById('adminTypeName').value.trim(),
+        payload_kg: Number(document.getElementById('adminTypePayload').value),
+        volume_m3: document.getElementById('adminTypeVolume').value ? Number(document.getElementById('adminTypeVolume').value) : null,
+        base_rate_per_km: Number(document.getElementById('adminTypeRate').value),
+        min_price: Number(document.getElementById('adminTypeMinPrice').value || 0),
+        description: document.getElementById('adminTypeDescription').value.trim() || null,
+        is_active: true,
+      }),
+    });
+    showToast('success', 'Тип транспорта добавлен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось добавить тип транспорта', error.message);
+  }
+}
+window.createAdminVehicleType = createAdminVehicleType;
+
+async function createAdminVehicle() {
+  try {
+    await apiFetch('/logistics/vehicles', {
+      method: 'POST',
+      body: JSON.stringify({
+        model: document.getElementById('adminVehicleModel').value.trim(),
+        plate_number: document.getElementById('adminVehiclePlate').value.trim(),
+        vehicle_type_id: Number(document.getElementById('adminVehicleTypeId').value),
+        city_id: Number(document.getElementById('adminVehicleCityId').value),
+        payload_kg: Number(document.getElementById('adminVehiclePayload').value),
+        volume_m3: document.getElementById('adminVehicleVolume').value ? Number(document.getElementById('adminVehicleVolume').value) : null,
+        notes: document.getElementById('adminVehicleNotes').value.trim() || null,
+        is_active: true,
+        is_available: true,
+      }),
+    });
+    showToast('success', 'Транспорт добавлен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось добавить транспорт', error.message);
+  }
+}
+window.createAdminVehicle = createAdminVehicle;
+
+async function saveAdminVehicle(vehicleId) {
+  try {
+    await apiFetch(`/logistics/vehicles/${vehicleId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        is_active: document.getElementById(`vehicleActive-${vehicleId}`).checked,
+        is_available: document.getElementById(`vehicleAvailable-${vehicleId}`).checked,
+      }),
+    });
+    showToast('success', 'Статус транспорта обновлен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось сохранить транспорт', error.message);
+  }
+}
+window.saveAdminVehicle = saveAdminVehicle;
+
+async function saveAdminUser(userId) {
+  try {
+    await apiFetch(`/admin/users/${userId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        role: document.getElementById(`adminUserRole-${userId}`).value,
+        is_active: document.getElementById(`adminUserActive-${userId}`).checked,
+        is_verified: document.getElementById(`adminUserVerified-${userId}`).checked,
+      }),
+    });
+    showToast('success', 'Пользователь обновлен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось обновить пользователя', error.message);
+  }
+}
+window.saveAdminUser = saveAdminUser;
+
+async function saveAdminOrderStatus(orderId) {
+  try {
+    await apiFetch(`/admin/orders/${orderId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        status: document.getElementById(`adminOrderStatus-${orderId}`).value,
+      }),
+    });
+    showToast('success', 'Статус заявки обновлен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось обновить статус заявки', error.message);
+  }
+}
+window.saveAdminOrderStatus = saveAdminOrderStatus;
+
+async function assignAdminVehicle(orderId) {
+  const vehicleId = Number(document.getElementById(`adminOrderVehicle-${orderId}`).value);
+  if (!vehicleId) {
+    showToast('error', 'Выберите транспорт');
+    return;
+  }
+
+  try {
+    await apiFetch(`/admin/orders/${orderId}/assign-vehicle`, {
+      method: 'POST',
+      body: JSON.stringify({ vehicle_id: vehicleId }),
+    });
+    showToast('success', 'Транспорт назначен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось назначить транспорт', error.message);
+  }
+}
+window.assignAdminVehicle = assignAdminVehicle;
+
+async function reloadAdminMatches(orderId) {
+  try {
+    adminState.matches[orderId] = await apiFetch(`/logistics/orders/${orderId}/matches`);
+    renderOrders();
+    showToast('success', 'Подбор транспорта обновлен');
+  } catch (error) {
+    showToast('error', 'Не удалось обновить подбор', error.message);
+  }
+}
+window.reloadAdminMatches = reloadAdminMatches;
+
+async function cancelAdminPayment(orderId) {
+  try {
+    await apiFetch(`/payments/orders/${orderId}/cancel`, { method: 'POST' });
+    showToast('success', 'Платеж отменен');
+    await loadAdminPage();
+  } catch (error) {
+    showToast('error', 'Не удалось отменить платеж', error.message);
+  }
+}
+window.cancelAdminPayment = cancelAdminPayment;
+
+document.getElementById('adminVehicleTypeId').addEventListener('change', syncVehicleTypeDefaults);
+
+loadAdminPage();
+</script>

@@ -1,0 +1,331 @@
+<style>
+    .steps-detailed {
+      display: flex; flex-direction: column; gap: 0;
+      max-width: 900px; margin: 0 auto;
+    }
+
+    .step-row {
+      display: grid; grid-template-columns: 80px 1fr; gap: 2rem;
+      padding: 3rem 0; position: relative;
+    }
+
+    .step-row:not(:last-child)::after {
+      content: '';
+      position: absolute; left: 39px; top: 100px; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent) 0%, var(--border) 100%);
+    }
+
+    .step-index {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .step-circle {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(240,193,75,0.1); border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+      color: var(--accent); flex-shrink: 0;
+    }
+
+
+    .step-body h3 {
+      font-family: 'Syne', sans-serif; font-size: 1.35rem; font-weight: 700;
+      margin-bottom: 0.75rem; letter-spacing: -0.02em;
+    }
+
+    .step-body p { color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
+
+    .step-details {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .step-details ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .step-details li {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.9rem; color: var(--muted);
+    }
+
+    .step-details li::before {
+      content: '›'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 0.1rem;
+    }
+
+    .roles-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;
+    }
+
+    .role-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .role-card:hover { border-color: rgba(240,193,75,0.25); transform: translateY(-3px); }
+
+    .role-card .role-icon {
+      font-size: 2.5rem; margin-bottom: 1rem; display: block;
+    }
+
+    .role-card h3 {
+      font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem;
+    }
+
+    .role-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.25rem; }
+
+    .role-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .role-card li {
+      font-size: 0.88rem; color: var(--muted);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .role-card li::before { content: '✓'; color: var(--success); font-weight: 700; }
+
+    .faq-list { display: flex; flex-direction: column; gap: 0.75rem; max-width: 780px; }
+
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem; cursor: pointer;
+      font-weight: 500; font-size: 0.95rem;
+      transition: color var(--transition);
+    }
+
+    .faq-question:hover { color: var(--accent); }
+
+    .faq-icon {
+      color: var(--accent); font-size: 1.2rem; font-weight: 300;
+      transition: transform var(--transition); flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-answer {
+      padding: 0 1.5rem; max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 1.25rem; }
+    .faq-answer p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    @media (max-width: 640px) {
+      .step-row { grid-template-columns: 56px 1fr; gap: 1.25rem; }
+      .step-row:not(:last-child)::after { left: 27px; }
+    }
+  </style>
+
+<main>
+
+<div class="page-hero">
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="page-hero-content">
+    <div class="section-label">Процесс</div>
+    <h1>Как работает <span>Groozer</span></h1>
+    <p>Платформа объединяет грузовладельцев и перевозчиков. Мы автоматизировали весь процесс — от публикации заявки до подтверждения доставки.</p>
+  </div>
+</div>
+
+<section>
+  <div class="section-label">Для грузовладельца</div>
+  <h2>Шаг за шагом</h2>
+
+  <div class="steps-detailed">
+    <div class="step-row reveal">
+      <div class="step-index">
+        <div class="step-circle">01</div>
+      </div>
+      <div class="step-body">
+        <h3>Регистрация и профиль</h3>
+        <p>Создайте аккаунт за 2 минуты. Укажите роль — грузовладелец или перевозчик. Данные надёжно защищены.</p>
+        <div class="step-details">
+          <ul>
+            <li>Email + пароль</li>
+            <li>Верификация номера телефона для повышения рейтинга</li>
+            <li>Загрузка аватара и документов компании</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row reveal">
+      <div class="step-index">
+        <div class="step-circle">02</div>
+      </div>
+      <div class="step-body">
+        <h3>Создание заявки</h3>
+        <p>Заполните форму: откуда и куда, параметры груза, желаемый бюджет и дату. Заявка сразу появляется в публичном каталоге для перевозчиков.</p>
+        <div class="step-details">
+          <ul>
+            <li>Тип груза: обычный, хрупкий, скоропортящийся, негабаритный, опасный</li>
+            <li>Вес, объём, описание содержимого</li>
+            <li>Желаемые даты забора и доставки</li>
+            <li>Загрузка сопроводительных документов (ТТН, накладные)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row reveal">
+      <div class="step-index">
+        <div class="step-circle">03</div>
+      </div>
+      <div class="step-body">
+        <h3>Выбор перевозчика</h3>
+        <p>Перевозчики откликаются на вашу заявку. Изучайте профили, рейтинги, количество выполненных заказов и отзывы предыдущих клиентов.</p>
+        <div class="step-details">
+          <ul>
+            <li>Рейтинг от 1 до 5 на основе реальных отзывов</li>
+            <li>История выполненных перевозок</li>
+            <li>Возможность задать вопрос через встроенный чат</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row reveal">
+      <div class="step-index">
+        <div class="step-circle">04</div>
+      </div>
+      <div class="step-body">
+        <h3>Доставка и контроль</h3>
+        <p>Перевозчик берёт заявку в работу. Статус заявки обновляется в реальном времени. После доставки вы подтверждаете получение груза.</p>
+        <div class="step-details">
+          <ul>
+            <li>Статусы: Открыта → В работе → Завершена</li>
+            <li>Обмен документами прямо в системе</li>
+            <li>Финальное подтверждение от грузовладельца</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row reveal">
+      <div class="step-index">
+        <div class="step-circle">05</div>
+      </div>
+      <div class="step-body">
+        <h3>Отзыв и рейтинг</h3>
+        <p>После завершения обе стороны оставляют отзыв. Это помогает формировать честный рейтинг и делает платформу надёжнее для всех участников.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-label">Роли</div>
+  <h2>Кто работает в системе</h2>
+  <p class="section-sub">Три роли с разными правами и возможностями</p>
+
+  <div class="roles-grid">
+    <div class="role-card reveal">
+      <span class="role-icon">📦</span>
+      <h3>Грузовладелец</h3>
+      <p>Компании и частные лица, которым нужно отправить груз.</p>
+      <ul>
+        <li>Создание и управление заявками</li>
+        <li>Просмотр профилей перевозчиков</li>
+        <li>Загрузка и хранение документов</li>
+        <li>Общение через встроенный чат</li>
+        <li>Оценка перевозчиков</li>
+      </ul>
+    </div>
+
+    <div class="role-card reveal">
+      <span class="role-icon">🚛</span>
+      <h3>Перевозчик</h3>
+      <p>Водители и логистические компании с собственным транспортом.</p>
+      <ul>
+        <li>Просмотр каталога открытых заявок</li>
+        <li>Фильтрация по маршруту и типу груза</li>
+        <li>Взятие заявок в работу</li>
+        <li>Загрузка закрывающих документов</li>
+        <li>Формирование репутации и рейтинга</li>
+      </ul>
+    </div>
+
+    <div class="role-card reveal">
+      <span class="role-icon">⚙️</span>
+      <h3>Администратор</h3>
+      <p>Модерация платформы и управление пользователями.</p>
+      <ul>
+        <li>Управление всеми пользователями</li>
+        <li>Просмотр и редактирование любых заявок</li>
+        <li>Разрешение споров между сторонами</li>
+        <li>Мониторинг безопасности и логов</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Вопросы</div>
+  <h2>Часто задаваемые вопросы</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Сколько стоит размещение заявки?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Размещение заявок и просмотр каталога — бесплатно. Комиссия взимается только при успешном завершении сделки. Подробнее о тарифах — в разделе «О нас».</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Как проверяются перевозчики?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Каждый перевозчик проходит верификацию: подтверждение телефона, загрузка документов на транспортное средство. Кроме того, рейтинг формируется на основе реальных отзывов клиентов.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Что делать, если груз повреждён или утерян?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Обратитесь в поддержку через личный кабинет или напрямую к администратору. Заявка переводится в статус «Спор», и администратор помогает разрешить ситуацию на основе загруженных документов.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Поддерживаются ли межгородские перевозки?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Да, это основной фокус Groozer. Платформа оптимизирована именно для межгородских маршрутов по всей России — от Калининграда до Владивостока.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="text-align:center; background: linear-gradient(135deg, rgba(240,193,75,0.06) 0%, rgba(232,131,58,0.06) 100%); border-top: 1px solid var(--border);">
+  <h2>Готовы начать?</h2>
+  <p class="section-sub" style="margin: 0 auto 2rem;">Регистрация занимает 2 минуты</p>
+  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+    <button class="btn btn-primary btn-lg" onclick="openModal('register','client')">📦 Разместить груз</button>
+    <a href="/catalog" class="btn btn-outline btn-lg">Смотреть заявки</a>
+  </div>
+</section>
+
+</main>
+
+<script>
+window.toggleFaq = function toggleFaq(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+};
+</script>

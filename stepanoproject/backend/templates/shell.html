@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Groozer — платформа для грузоперевозок по всей России." />
+  <meta name="theme-color" content="#0a0a0f" />
+  <title>Groozer — Грузоперевозки нового поколения</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Главная навигация">
+  <a href="/" class="logo">Groozer<span class="logo-dot"></span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="/how">Как это работает</a></li>
+    <li><a href="/catalog">Заявки</a></li>
+    <li><a href="/features">Преимущества</a></li>
+    <li><a href="/carriers">Перевозчикам</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn btn-ghost" id="loginBtn">Войти</button>
+    <button class="btn btn-primary" id="registerBtn">Начать →</button>
+    <button class="hamburger" id="hamburger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Мобильная навигация">
+  <a href="/how"      onclick="closeMobileMenu()">Как это работает</a>
+  <a href="/catalog"  onclick="closeMobileMenu()">Заявки</a>
+  <a href="/features" onclick="closeMobileMenu()">Преимущества</a>
+  <a href="/carriers" onclick="closeMobileMenu()">Перевозчикам</a>
+  <div class="mobile-menu-divider"></div>
+  <div class="mobile-menu-actions">
+    <button class="btn btn-ghost"   id="loginBtnMobile">Войти</button>
+    <button class="btn btn-primary" id="registerBtnMobile">Начать →</button>
+  </div>
+</div>
+
+<div id="app" style="min-height:100vh"></div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="logo">Groozer<span class="logo-dot"></span></a>
+      <p>Платформа для организации грузоперевозок по всей России.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Платформа</h4>
+      <ul>
+        <li><a href="/how">Как это работает</a></li>
+        <li><a href="/catalog">Каталог заявок</a></li>
+        <li><a href="/features">Преимущества</a></li>
+        <li><a href="/api/docs">API</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Пользователям</h4>
+      <ul>
+        <li><a href="#" onclick="openModal('register')">Регистрация</a></li>
+        <li><a href="#" onclick="openModal('login')">Войти</a></li>
+        <li><a href="/carriers">Перевозчикам</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Компания</h4>
+      <ul>
+        <li><a href="#">О нас</a></li>
+        <li><a href="#">Блог</a></li>
+        <li><a href="#">Конфиденциальность</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Groozer. Все права защищены.</span>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">✕</button>
+    <h2 id="modalTitle">Добро пожаловать</h2>
+    <p class="modal-sub">Войдите или создайте аккаунт Groozer</p>
+    <div class="modal-tabs" role="tablist">
+      <button class="modal-tab active" id="tabLogin" role="tab" onclick="switchTab('login')">Войти</button>
+      <button class="modal-tab" id="tabRegister" role="tab" onclick="switchTab('register')">Регистрация</button>
+    </div>
+
+    <div id="formLogin" role="tabpanel">
+      <div class="form-group">
+        <label for="loginEmail">Email или логин</label>
+        <input type="text" id="loginEmail" placeholder="user@example.com" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Пароль</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button class="btn btn-primary btn-lg" style="width:100%;margin-top:.5rem" onclick="submitLogin()">
+        Войти в аккаунт
+      </button>
+    </div>
+
+    <div id="formRegister" style="display:none" role="tabpanel">
+      <div class="form-group">
+        <label>Я хочу</label>
+        <div class="role-select">
+          <label class="role-option selected" id="roleClient">
+            <input type="radio" name="role" value="client" checked />
+            <div class="icon">📦</div><div class="name">Отправить груз</div>
+          </label>
+          <label class="role-option" id="roleCarrier">
+            <input type="radio" name="role" value="carrier" />
+            <div class="icon">🚛</div><div class="name">Перевозить грузы</div>
+          </label>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="regName">Полное имя</label>
+          <input type="text" id="regName" placeholder="Иван Иванов" autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label for="regUsername">Логин</label>
+          <input type="text" id="regUsername" placeholder="ivan_ivanov" autocomplete="username" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regEmail">Email</label>
+        <input type="email" id="regEmail" placeholder="ivan@example.com" autocomplete="email" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="regPassword">Пароль</label>
+          <input type="password" id="regPassword" placeholder="Мин. 8 символов" autocomplete="new-password" />
+        </div>
+        <div class="form-group">
+          <label for="regPassword2">Повторите</label>
+          <input type="password" id="regPassword2" placeholder="Повторите пароль" autocomplete="new-password" />
+        </div>
+      </div>
+      <button class="btn btn-primary btn-lg" style="width:100%;margin-top:.5rem" onclick="submitRegister()">
+        Зарегистрироваться
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive">
+  <div class="toast-icon" id="toastIcon"></div>
+  <div>
+    <div class="toast-title" id="toastTitle"></div>
+    <div class="toast-msg"   id="toastMsg"></div>
+  </div>
+</div>
+
+<script src="/assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# groozer — зависимости Python 3.13
+# Установка: pip install -r requirements.txt
+
+# Веб-сервер
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+
+# База данных (асинхронная)
+sqlalchemy==2.0.40
+aiosqlite==0.21.0
+# Для PostgreSQL раскомментировать:
+# asyncpg==0.30.0
+# psycopg[binary,pool]==3.2.6
+
+# Конфигурация
+pydantic==2.11.3
+pydantic-settings==2.9.1
+
+# Безопасность
+python-jose[cryptography]==3.3.0
+passlib==1.7.4
+
+# HTTP-клиент (для тестов и интеграций)
+httpx==0.28.1
+
+# Миграции БД
+alembic==1.15.2
+
+# Тестирование
+pytest==8.3.5
+pytest-asyncio==0.26.0

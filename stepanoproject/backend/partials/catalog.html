@@ -1,0 +1,459 @@
+<style>
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      padding: 7rem clamp(1rem, 5vw, 3rem) 5rem;
+      max-width: 1400px; margin: 0 auto;
+      align-items: start;
+    }
+
+    .filters-sidebar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: sticky; top: 86px;
+    }
+
+    .filters-sidebar h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: var(--muted); margin-bottom: 1.25rem;
+    }
+
+    .filter-group { margin-bottom: 1.5rem; }
+
+    .filter-group label {
+      display: block; font-size: 0.8rem;
+      color: var(--muted); font-weight: 500; margin-bottom: 0.5rem;
+    }
+
+    .filter-group input, .filter-group select {
+      width: 100%; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.6rem 0.875rem; color: var(--text);
+      font-family: inherit; font-size: 0.88rem; outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .filter-group input:focus, .filter-group select:focus {
+      border-color: var(--accent);
+    }
+
+    .filter-group input::placeholder { color: var(--muted); }
+    .filter-group select option { background: var(--surface2); }
+
+    .filter-divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
+
+    .filter-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .filter-chip {
+      padding: 0.3rem 0.75rem; border-radius: 50px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); font-family: inherit; font-size: 0.78rem;
+      cursor: pointer; transition: all var(--transition);
+    }
+
+    .filter-chip:hover, .filter-chip.active {
+      background: var(--accent); border-color: var(--accent);
+      color: #0a0a0f; font-weight: 600;
+    }
+
+
+    .catalog-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+    }
+
+    .catalog-header h1 {
+      font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .catalog-count {
+      font-size: 0.85rem; color: var(--muted);
+    }
+
+    .sort-select {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.45rem 0.875rem;
+      color: var(--text); font-family: inherit; font-size: 0.85rem;
+      outline: none; cursor: pointer;
+      transition: border-color var(--transition);
+    }
+
+    .sort-select:focus { border-color: var(--accent); }
+    .sort-select option { background: var(--surface2); }
+
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .order-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem; cursor: pointer;
+      transition: all var(--transition); position: relative;
+    }
+
+    .order-card:hover {
+      border-color: rgba(240,193,75,0.3); transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    .order-route {
+      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
+    }
+
+    .order-city { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
+    .route-arrow { color: var(--accent); font-size: 0.9rem; flex-shrink: 0; }
+
+    .order-meta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+    .order-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1rem; border-top: 1px solid var(--border); margin-top: 0.5rem;
+    }
+
+    .order-price {
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--accent);
+    }
+
+    .order-weight { font-size: 0.85rem; color: var(--muted); }
+
+    .pagination {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.5rem; margin-top: 3rem; flex-wrap: wrap;
+    }
+
+    .page-btn {
+      width: 38px; height: 38px; border-radius: 8px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); font-family: inherit; font-size: 0.9rem;
+      cursor: pointer; transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .page-btn:hover, .page-btn.active {
+      background: var(--accent); border-color: var(--accent);
+      color: #0a0a0f; font-weight: 600;
+    }
+
+    .fab {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 50;
+      background: var(--accent); color: #0a0a0f;
+      border: none; border-radius: 50px;
+      padding: 0.85rem 1.5rem;
+      font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+      box-shadow: 0 8px 32px rgba(240,193,75,0.35);
+      transition: all var(--transition);
+    }
+
+    .fab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(240,193,75,0.45);
+    }
+
+    @media (max-width: 860px) {
+      .catalog-layout { grid-template-columns: 1fr; }
+      .filters-sidebar { position: static; }
+    }
+  </style>
+
+<main>
+  <div class="catalog-layout">
+
+    <aside class="filters-sidebar" aria-label="Фильтры поиска">
+      <h3>Фильтры</h3>
+
+      <div class="filter-group">
+        <label for="f-from">Откуда</label>
+        <input type="text" id="f-from" placeholder="Город отправки" />
+      </div>
+
+      <div class="filter-group">
+        <label for="f-to">Куда</label>
+        <input type="text" id="f-to" placeholder="Город назначения" />
+      </div>
+
+      <div class="filter-divider"></div>
+
+      <div class="filter-group">
+        <label>Тип груза</label>
+        <div class="filter-chips" id="typeChips">
+          <button class="filter-chip active" data-type="">Все</button>
+          <button class="filter-chip" data-type="general">📦 Обычный</button>
+          <button class="filter-chip" data-type="fragile">🔮 Хрупкий</button>
+          <button class="filter-chip" data-type="perishable">❄️ Скоропорт.</button>
+          <button class="filter-chip" data-type="oversized">🏗 Негабарит</button>
+          <button class="filter-chip" data-type="hazardous">⚠️ Опасный</button>
+        </div>
+      </div>
+
+      <div class="filter-divider"></div>
+
+      <div class="filter-group">
+        <label for="f-weight">Макс. вес, кг</label>
+        <input type="number" id="f-weight" placeholder="Например: 5000" min="0" />
+      </div>
+
+      <div class="filter-group">
+        <label for="f-budget">Макс. бюджет, ₽</label>
+        <input type="number" id="f-budget" placeholder="Например: 30000" min="0" />
+      </div>
+
+      <div class="filter-divider"></div>
+
+      <button class="btn btn-primary" style="width:100%" onclick="applyFilters()">Применить</button>
+      <button class="btn btn-ghost"   style="width:100%;margin-top:.5rem" onclick="clearFilters()">Сбросить</button>
+    </aside>
+
+    <div class="catalog-main">
+      <div class="catalog-header">
+        <div>
+          <h1>Биржа заявок</h1>
+          <p class="catalog-count" id="catalogCount">Загрузка...</p>
+        </div>
+        <select class="sort-select" id="sortSelect" onchange="loadOrders(1)">
+          <option value="newest">Сначала новые</option>
+          <option value="price_asc">Цена: по возрастанию</option>
+          <option value="price_desc">Цена: по убыванию</option>
+          <option value="weight_desc">Вес: по убыванию</option>
+        </select>
+      </div>
+
+      <div class="orders-grid" id="ordersGrid" role="list" aria-live="polite"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+  <button class="fab" type="button" id="catalogFab" onclick="openCatalogPrimaryAction()" style="display:none"></button>
+</main>
+
+<script>
+'use strict';
+
+const CARGO_LABELS = {
+  general: '📦 Обычный', fragile: '🔮 Хрупкий',
+  perishable: '❄️ Скоропортящийся', oversized: '🏗 Негабаритный',
+  hazardous: '⚠️ Опасный', liquid: '💧 Жидкость',
+};
+
+const DEMO_ORDERS = [
+  { id:1, origin_city:'Москва',         destination_city:'Санкт-Петербург', cargo_name:'Офисная мебель',           cargo_type:'general',    weight_kg:850,  budget:18000, status:'published' },
+  { id:2, origin_city:'Казань',         destination_city:'Уфа',             cargo_name:'Строительные материалы',   cargo_type:'oversized',  weight_kg:2400, budget:35000, status:'published' },
+  { id:3, origin_city:'Новосибирск',    destination_city:'Томск',           cargo_name:'Медицинское оборудование', cargo_type:'fragile',    weight_kg:320,  budget:12000, status:'published' },
+  { id:4, origin_city:'Ростов-на-Дону', destination_city:'Краснодар',       cargo_name:'Продукты питания',         cargo_type:'perishable', weight_kg:600,  budget:8500,  status:'published' },
+  { id:5, origin_city:'Екатеринбург',   destination_city:'Челябинск',       cargo_name:'Автозапчасти',             cargo_type:'general',    weight_kg:180,  budget:5000,  status:'published' },
+  { id:6, origin_city:'Самара',         destination_city:'Тольятти',        cargo_name:'Бытовая техника',          cargo_type:'fragile',    weight_kg:450,  budget:9500,  status:'published' },
+  { id:7, origin_city:'Владивосток',    destination_city:'Хабаровск',       cargo_name:'Промышленное оборудование',cargo_type:'oversized',  weight_kg:5200, budget:85000, status:'published' },
+  { id:8, origin_city:'Воронеж',        destination_city:'Белгород',        cargo_name:'Зерно',                    cargo_type:'general',    weight_kg:8000, budget:42000, status:'published' },
+  { id:9, origin_city:'Пермь',          destination_city:'Ижевск',          cargo_name:'Фармацевтика',             cargo_type:'perishable', weight_kg:240,  budget:11000, status:'published' },
+  { id:10,origin_city:'Красноярск',     destination_city:'Иркутск',         cargo_name:'Вентиляционные системы',   cargo_type:'oversized',  weight_kg:1800, budget:55000, status:'published' },
+  { id:11,origin_city:'Тюмень',         destination_city:'Омск',            cargo_name:'Нефтепродукты',            cargo_type:'hazardous',  weight_kg:3500, budget:28000, status:'published' },
+  { id:12,origin_city:'Волгоград',      destination_city:'Астрахань',       cargo_name:'Стекло оконное',           cargo_type:'fragile',    weight_kg:780,  budget:16000, status:'published' },
+];
+
+const urlParams = new URLSearchParams(location.search);
+document.getElementById('f-from').value = urlParams.get('from')  || '';
+document.getElementById('f-to').value   = urlParams.get('to')    || '';
+const initialType = urlParams.get('cargo_type') || '';
+state.currentFilter = initialType;
+if (initialType) {
+  document.querySelectorAll('#typeChips .filter-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.type === initialType);
+  });
+}
+
+document.getElementById('typeChips').addEventListener('click', e => {
+  const chip = e.target.closest('.filter-chip');
+  if (!chip) return;
+  document.querySelectorAll('#typeChips .filter-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  state.currentFilter = chip.dataset.type;
+});
+
+function applyFilters() { loadOrders(1); }
+window.applyFilters = applyFilters;
+
+function clearFilters() {
+  document.getElementById('f-from').value   = '';
+  document.getElementById('f-to').value     = '';
+  document.getElementById('f-weight').value = '';
+  document.getElementById('f-budget').value = '';
+  document.querySelectorAll('#typeChips .filter-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
+  state.currentFilter = '';
+  loadOrders(1);
+}
+window.clearFilters = clearFilters;
+
+function updateCatalogFab() {
+  const fab = document.getElementById('catalogFab');
+  if (!fab) return;
+
+  fab.style.display = 'inline-flex';
+  if (!state.user) {
+    fab.textContent = 'Войти';
+    return;
+  }
+
+  if (state.user.role === 'carrier') {
+    fab.textContent = 'Мои рейсы';
+    return;
+  }
+
+  if (state.user.role === 'admin') {
+    fab.textContent = 'Админка';
+    return;
+  }
+
+  fab.textContent = 'Создать заявку';
+}
+window.updateCatalogFab = updateCatalogFab;
+
+function openCatalogPrimaryAction() {
+  if (!state.user) {
+    openModal('login');
+    return;
+  }
+
+  if (state.user.role === 'admin') {
+    navigateTo('/admin');
+    return;
+  }
+
+  navigateTo('/profile');
+}
+window.openCatalogPrimaryAction = openCatalogPrimaryAction;
+
+async function takeCatalogOrder(orderId) {
+  try {
+    await apiFetch(`/orders/${orderId}/take`, { method: 'PATCH' });
+    showToast('success', 'Заявка взята в работу');
+    await loadOrders(state.currentPage || 1);
+  } catch (error) {
+    showToast('error', 'Не удалось взять заявку', error.message);
+  }
+}
+window.takeCatalogOrder = takeCatalogOrder;
+
+async function loadOrders(page = 1) {
+  const perPage = 6;
+  let orders = DEMO_ORDERS, total = DEMO_ORDERS.length;
+
+  try {
+    const params = new URLSearchParams({ page, per_page: perPage });
+    if (state.currentFilter) params.set('cargo_type', state.currentFilter);
+    const from = document.getElementById('f-from').value.trim();
+    const to   = document.getElementById('f-to').value.trim();
+    if (from) params.set('origin_city', from);
+    if (to)   params.set('destination_city', to);
+    const data = await apiFetch(`/orders?${params}`);
+    orders = data.items; total = data.total;
+  } catch {
+    let filtered = DEMO_ORDERS;
+    if (state.currentFilter) filtered = filtered.filter(o => o.cargo_type === state.currentFilter);
+    const from = document.getElementById('f-from').value.trim().toLowerCase();
+    const to   = document.getElementById('f-to').value.trim().toLowerCase();
+    if (from) filtered = filtered.filter(o => o.origin_city.toLowerCase().includes(from));
+    if (to)   filtered = filtered.filter(o => o.destination_city.toLowerCase().includes(to));
+    const maxWeight = +document.getElementById('f-weight').value;
+    const maxBudget = +document.getElementById('f-budget').value;
+    if (maxWeight) filtered = filtered.filter(o => o.weight_kg <= maxWeight);
+    if (maxBudget) filtered = filtered.filter(o => !o.budget || o.budget <= maxBudget);
+    total = filtered.length;
+    orders = filtered.slice((page-1)*perPage, page*perPage);
+  }
+
+  document.getElementById('catalogCount').textContent =
+    total ? `Найдено заявок: ${total}` : 'Ничего не найдено';
+
+  renderOrders(orders);
+  renderPagination(Math.ceil(total / perPage), page);
+  state.currentPage = page;
+}
+window.loadOrders = loadOrders;
+
+function renderOrders(orders) {
+  const grid = document.getElementById('ordersGrid');
+  if (!orders.length) {
+    grid.innerHTML = `<div class="loader" style="grid-column:1/-1">
+      <p style="color:var(--muted)">Заявок по вашему запросу не найдено</p>
+    </div>`; return;
+  }
+  grid.innerHTML = orders.map(o => `
+    <article class="order-card reveal" role="listitem" tabindex="0"
+      onclick="showToast('success','Заявка #${o.id}','${escHtml(o.cargo_name)}')">
+      <div class="order-route">
+        <span class="order-city">${escHtml(o.origin_city)}</span>
+        <span class="route-arrow">→</span>
+        <span class="order-city">${escHtml(o.destination_city)}</span>
+      </div>
+      <p style="font-size:.9rem;color:var(--muted);margin-bottom:.75rem">${escHtml(o.cargo_name)}</p>
+      <div class="order-meta">
+        <span class="tag cargo">${CARGO_LABELS[o.cargo_type] || o.cargo_type}</span>
+        <span class="tag status-published">● Открыта</span>
+      </div>
+      <div class="order-footer">
+        <span class="order-price">${o.budget ? Number(o.budget).toLocaleString('ru-RU')+' ₽' : 'По договору'}</span>
+        <span class="order-weight">${o.weight_kg.toLocaleString('ru-RU')} кг</span>
+      </div>
+    </article>
+  `).join('');
+  setTimeout(initReveal, 50);
+}
+
+renderOrders = function renderOrders(orders) {
+  const grid = document.getElementById('ordersGrid');
+  if (!orders.length) {
+    grid.innerHTML = `<div class="loader" style="grid-column:1/-1">
+      <p style="color:var(--muted)">Заявок по вашему запросу не найдено</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = orders.map(o => {
+    const canTake = state.user && ['carrier', 'admin'].includes(state.user.role) && o.status === 'published';
+    return `
+      <article class="order-card reveal" role="listitem" tabindex="0"
+        onclick="showToast('success','Заявка #${o.id}','${escHtml(o.cargo_name)}')">
+        <div class="order-route">
+          <span class="order-city">${escHtml(o.origin_city)}</span>
+          <span class="route-arrow">→</span>
+          <span class="order-city">${escHtml(o.destination_city)}</span>
+        </div>
+        <p style="font-size:.9rem;color:var(--muted);margin-bottom:.75rem">${escHtml(o.cargo_name)}</p>
+        <div class="order-meta">
+          <span class="tag cargo">${CARGO_LABELS[o.cargo_type] || o.cargo_type}</span>
+          <span class="tag status-published">● Открыта</span>
+        </div>
+        <div class="order-footer">
+          <span class="order-price">${o.budget ? Number(o.budget).toLocaleString('ru-RU') + ' ₽' : 'По договору'}</span>
+          <span class="order-weight">${o.weight_kg.toLocaleString('ru-RU')} кг</span>
+        </div>
+        ${canTake
+          ? `<div style="margin-top:0.9rem"><button class="btn btn-primary" type="button" onclick="event.stopPropagation();takeCatalogOrder(${o.id})">Взять в работу</button></div>`
+          : ''}
+      </article>
+    `;
+  }).join('');
+  setTimeout(initReveal, 50);
+};
+
+function renderPagination(pages, current) {
+  const nav = document.getElementById('pagination');
+  if (pages <= 1) { nav.innerHTML = ''; return; }
+  let html = '';
+  if (current > 1) html += `<button class="page-btn" onclick="loadOrders(${current-1})">‹</button>`;
+  for (let i = 1; i <= pages; i++)
+    html += `<button class="page-btn ${i===current?'active':''}" onclick="loadOrders(${i})">${i}</button>`;
+  if (current < pages) html += `<button class="page-btn" onclick="loadOrders(${current+1})">›</button>`;
+  nav.innerHTML = html;
+}
+
+updateCatalogFab();
+loadOrders(1);
+</script>
